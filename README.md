@@ -1,5 +1,4 @@
 # MOD16_global
-
 This MOD16 algorithm is developed for estimating the global evapotranspiration (ET) and is the core algorithm behind the MODIS ET product, which is original developed by [NTSG](https://www.ntsg.umt.edu/). 
 
 Code Reference: 
