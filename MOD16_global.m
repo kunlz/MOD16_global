@@ -11,21 +11,22 @@
 % Mu et al., 2007. Development of a global evapotranspiration algorithm based on MODIS and global meteorology data
 % Mu et al., 2011. Improvements to a MODIS global terrestrial evapotranspiration algorithm
 %--------------------------------------------------------------------------
-function [ET,Ewet,Ttrans,Esoil] = MOD16_global(Input,G,flag,fc,LAI,BPLUT,conts)
+function [ET,Ewet,Ttrans,Esoil] = MOD16_global(Rn,Ta,RH,Pa,Tmin,G,flag,fc,LAI,BPLUT,conts)
 % ET, MOD16 Evapotranspiration, mm
 %----------------
 % function input:
-% Input     : 
-%             1-Rn, net radiation, (W m-2)
-%             2-Ta, air temperature, (C)
-%             3-RH, relative humidity, (0.01)
-%             4-Pa, air pressure, (kPa)
-%             5-Tmin, minimum temperature, (C)
+% Rn        : net radiation, (W m-2)
+% Ta        : air temperature, (C)
+% RH        : relative humidity, (0.01)
+% Pa        : air pressure, (kPa)
+% Tmin      : minimum temperature, (C)
 % G         : soil heat flux, (W m-2)
 % flag      : 1-daytime, 0-nighttime
 % LAI       : leaf area index
 % BPLUT     : Biome Properties Look-Up Table
 % conts     : the number of daytime hours in 24h
+%----------------
+
 [row,clomn] = size(LAI);
 %--------------------------------Adapted Parameters (Vegetation cover type)
 Tmin_open   = BPLUT(:,:,1); % No inhibition to transpiration
@@ -39,11 +40,6 @@ rblmin      = BPLUT(:,:,8); % Minimum value for rtotc, s/m
 rblmax      = BPLUT(:,:,9); % Maximum value for rtotc, s/m
 beta        = BPLUT(:,:,10); % beta, 
 %--------------------------------------------------------------Main_Program
-Rn   = Input(:,:,1);           % W m-2   
-Ta   = Input(:,:,2)-273.16;    % C
-RH   = 0.01.*Input(:,:,3);     % 0.01 
-Pa   = 0.001.*Input(:,:,4);    % kPa
-Tmin = Input(:,:,5)-273.16;    % C
 
 [Ac,Asoil,VPD,delta,gamma,lambda,rcorr,rrc,fwet,rho] = Calv(Rn,Ta,RH,Pa,G,fc);
 %--Module 1 Evaporation from wet canopy surface
